@@ -1,0 +1,218 @@
+---
+title: "COURSERA - PRACTICE - CODEBOOK"
+author: "SMS"
+date: "11 de abril de 2018"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## THE OBJECTIVE:
+
+The research aims to evaluate the motivation of the students, who participate in an online English course in a MOOC environment, through a questionnaire composed of the following questions:
+
+#1. What is your age in years? 
+
+Code name: V1
+
+Variable description: Ages.
+
+Values: years
+
+#2. Are you male or female?
+
+Code name: V2
+
+Variable description: Gender.
+
+Values:
+
+1 =  I'd rather not say
+
+2 = MALE
+
+3 = FEMALE
+
+NA = MISSING VALUE
+
+#3. I don't really care when I get higher grades than most of my peers.
+
+Code name: V3
+
+Variable description: Commitment to the course.
+
+Values:
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#4. I find the course material interesting.
+
+Code name: V4
+
+Variable description: Evaluation of the material.
+
+Values:
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#5. Participating in this course allows me to show my intellectual abilities.
+
+Code name: V5
+
+Variable description: Test knowledge. 
+
+Values:
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#6. The course content fails to interest me.
+
+Code name: V6
+
+Variable description: Content quality.
+
+Values:
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#7. The course allow me to improve my networking.
+
+Code name: V7
+
+Variable description: Interconnectivity between students.
+
+Values:
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#8.  the course reduces my desire to look and click on my smartphone.
+
+Code name: V8
+
+Variable description: Loss of learning due to anxiety.
+
+Values
+
+1 = FULLY DISAGREE
+
+2 = DISAGREE
+
+3 = NEUTRAL
+
+4 = AGREE
+
+5 = FULLY AGREE
+
+NA = MISSING VALUE
+
+#Description of the data:
+
+```{r data}
+library(readxl)
+mydata <- read_excel("~/mydata.xlsx")
+View(mydata)
+```
+
+```{r head}
+head(mydata) 
+```
+
+```{r dim}
+dim(mydata) #dimensions, or shape
+```
+ 
+```{r str}
+str(mydata) #Get Structure
+```
+ 
+```{r sum}
+ summary(mydata) # information about all variables
+```
+
+```{r describe}
+library(psych)
+describe(mydata) #And you'll get several more statistics from the data including standard deviation, "mad" (mean absolute deviation), skew (measuring whether or not the data distribution is symmetrical) and kurtosis (whether the data have a sharp or flatter peak near its mean).
+```
+
+#MISSING DATA
+```{r miss}
+is.na(mydata) #the missingness indicator
+sum(is.na(mydata)) #identify count of NAs in data frame
+colSums(is.na(mydata)) #shortcut to compute the total missing values in each column is to use
+
+library(mice)
+md.pattern(mydata) # The pattern of missing data
+```
+
+## General Plot
+```{r mydata, echo=FALSE}
+library(VIM)
+mydata_aggr = aggr(mydata, col=mdc(1:8), numbers=TRUE, sortVars=TRUE, labels=names(mydata), cex.axis=.7, gap=3, ylab=c("Proportion of missingness","Missingness Pattern"))
+plot(mydata)
+```
+
+
+#CLEANING DATA
+```{r clean}
+library(dplyr)
+mydata = mydata %>% na.omit() #Remove rows with missing data
+summary(mydata)
+
+```
+
+
+
